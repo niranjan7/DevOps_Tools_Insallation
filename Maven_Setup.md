@@ -42,6 +42,9 @@ sudo yum install -y java-1.8.0-openjdk-devel
 
 # OR for Java 11
 sudo yum install -y java-11-openjdk-devel
+
+# OR for Java 17
+sudo yum install -y java-17-openjdk-devel
 ```
 
 ✅ Check the version:
@@ -50,7 +53,6 @@ sudo yum install -y java-11-openjdk-devel
 java -version
 javac -version
 ```
-
 ---
 
 ### ✅ Step 3: Prepare Environment
@@ -61,7 +63,6 @@ Install required tools and go to the `/opt` directory:
 cd /opt
 yum install -y wget unzip
 ```
-
 ---
 
 ### ✅ Step 4: Download and Extract Maven
@@ -124,7 +125,82 @@ Java version: 1.8.x or 11.x
 
 ## 🧠 Bonus: Make It a Script
 
-You can automate the full process using this script:
+### Here is a portable shell script to install OpenJDK 17 manually (without a package manager) on Amazon Linux, RedHat, or Ubuntu.
+
+```bash
+#!/bin/bash
+# === Configuration ===
+
+#JDK_VERSION="11"
+#JDK_DIR="jdk-11.0.2"
+#JDK_TARBALL="openjdk-11.0.2_linux-x64_bin.tar.gz"
+#JDK_DOWNLOAD_URL="https://download.java.net/java/GA/jdk11/9/GPL/${JDK_TARBALL}"
+#INSTALL_DIR="/opt/jdk"
+
+JDK_VERSION="17"
+JDK_DIR="jdk-17"
+JDK_TARBALL="openjdk-${JDK_VERSION}_linux-x64_bin.tar.gz"
+JDK_DOWNLOAD_URL="https://download.java.net/java/GA/jdk17/0d483a097f51456b8dd33c965829f0b4/35/GPL/${JDK_TARBALL}"
+INSTALL_DIR="/opt/jdk"
+
+# === Step 1: Download JDK tar.gz ===
+echo "Downloading JDK ${JDK_VERSION}..."
+mkdir -p /tmp/jdk-install
+cd /tmp/jdk-install || exit 1
+
+if [ ! -f "${JDK_TARBALL}" ]; then
+    curl -O "${JDK_DOWNLOAD_URL}"
+    if [ $? -ne 0 ]; then
+        echo "Failed to download JDK tarball."
+        exit 1
+    fi
+fi
+
+# === Step 2: Extract to /opt/jdk ===
+echo "Installing to ${INSTALL_DIR}..."
+sudo mkdir -p "${INSTALL_DIR}"
+sudo tar -xvzf "${JDK_TARBALL}" -C "${INSTALL_DIR}"
+
+# === Step 3: Set Environment Variables ===
+echo "Setting up environment variables..."
+sudo tee /etc/profile.d/jdk.sh > /dev/null <<EOF
+export JAVA_HOME=${INSTALL_DIR}/${JDK_DIR}
+export PATH=\$JAVA_HOME/bin:\$PATH
+EOF
+
+sudo chmod +x /etc/profile.d/jdk.sh
+source /etc/profile.d/jdk.sh
+
+# === Step 4: Verify ===
+echo "Verifying installation..."
+java -version
+javac -version
+
+echo "JDK ${JDK_VERSION} installed successfully."
+```
+
+### How to Use:
+
+- Save as script:
+
+```bash
+vi install_jdk17_manual.sh
+# Paste the script and save
+```
+
+- Make executable and run:
+
+```bash
+chmod +x install_jdk17_manual.sh
+./install_jdk17_manual.sh
+```
+
+### Notes:
+- Requires sudo to extract to /opt.
+- Works on any Linux with curl, tar, and basic utilities.
+- Installs only OpenJDK 17 (can be modified for other versions).
+
+### You can automate the Maven Installation process using this script
 
 ```bash
 #!/bin/bash
@@ -148,7 +224,39 @@ mvn -version
 Save this as `install-maven.sh`, make it executable (`chmod +x install-maven.sh`), and run it using `sudo`.
 
 ---
+## Using Linux Package Managers
 
+### Amazon Linux 2
+
+```bash
+sudo yum update -y
+sudo amazon-linux-extras enable corretto17
+sudo yum install java-17-amazon-corretto -y
+sudo yum install maven -y
+java -version
+javac -version
+mvn --version
+```
+### Red Hat Enterprise Linux (RHEL 8/9)
+```bash
+sudo dnf install java-17-openjdk-devel -y
+sudo dnf install maven -y
+java -version
+javac -version
+mvn --version
+```
+
+### Ubuntu (20.04 / 22.04 / 24.04)
+
+```bash
+sudo apt update
+sudo apt install openjdk-17-jdk -y
+sudo apt install maven -y
+java -version
+javac -version
+mvn --version
+```
+---
 ## ✅ Summary
 
 | Task | Command |
