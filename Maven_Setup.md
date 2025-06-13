@@ -123,7 +123,7 @@ Java version: 1.8.x or 11.x
 
 ---
 
-## 🧠 Bonus: Make It a Script
+##  Bonus: Make It a Script
 
 ### Here is a portable shell script to install OpenJDK 17 manually (without a package manager) on Amazon Linux, RedHat, or Ubuntu.
 
