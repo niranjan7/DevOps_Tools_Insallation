@@ -36,6 +36,9 @@ sudo su -
 
 You can install **Java 1.8** (default) or **Java 11**:
 
+### We Can Find Java Softwares Open JDK Versions Here:-  https://jdk.java.net/archive/
+
+
 ```bash
 # For JDK 11
 sudo yum install wget -y
