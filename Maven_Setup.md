@@ -37,14 +37,19 @@ sudo su -
 You can install **Java 1.8** (default) or **Java 11**:
 
 ```bash
-# For JDK 1.8
-sudo yum install -y java-1.8.0-openjdk-devel
+# For JDK 11
+sudo yum install wget -y
+wget https://download.java.net/openjdk/jdk11.0.0.2/ri/openjdk-11.0.0.2_linux-x64.tar.gz
+tar -xzf openjdk-11.0.0.2_linux-x64.tar.gz
+sudo mv jdk-11.0.0.2 /opt/java-11
 
-# OR for Java 11
-sudo yum install -y java-11-openjdk-devel
+sudo tee /etc/profile.d/java.sh <<EOF
+export JAVA_HOME=/opt/java-11
+export PATH=\$JAVA_HOME/bin:\$PATH
+EOF
 
-# OR for Java 17
-sudo yum install -y java-17-openjdk-devel
+source /etc/profile.d/java.sh
+
 ```
 
 ✅ Check the version:
@@ -68,8 +73,8 @@ yum install -y wget unzip
 ### ✅ Step 4: Download and Extract Maven
 
 ```bash
-wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.zip
-unzip apache-maven-3.9.9-bin.zip
+wget https://dlcdn.apache.org/maven/maven-3/3.9.10/binaries/apache-maven-3.9.10-bin.zip
+unzip apache-maven-3.9.10-bin.zip
 ```
 
 ---
@@ -85,7 +90,7 @@ vi /etc/profile.d/maven.sh
 Paste the following into the file:
 
 ```bash
-export M2_HOME=/opt/apache-maven-3.9.9
+export M2_HOME=/opt/apache-maven-3.9.10
 export PATH=$PATH:$M2_HOME/bin
 ```
 
