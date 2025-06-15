@@ -34,7 +34,7 @@ sudo su -
 
 ### ✅ Step 2: Install Java (JDK)
 
-You can install **Java 1.8** (default) or **Java 11**:
+You can install **Java 1.8**  or **Above**
 
 ### We Can Find Java Softwares Open JDK Versions Here:-  https://jdk.java.net/archive/
 
