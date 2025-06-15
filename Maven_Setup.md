@@ -41,12 +41,12 @@ You can install **Java 1.8**  or **Above**
 
 ```bash
 # For JDK 11
-sudo yum install wget -y
+yum install wget -y
 wget https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz
 tar -xzf openjdk-11.0.2_linux-x64_bin.tar.gz
-sudo mv jdk-11.0.2 /opt/java-11
+mv jdk-11.0.2 /opt/java-11
 
-# User Level (Only It will work for current User)
+# User Level (Exit as a Root User and Run as Regular/Normal User (Only It will work for current User)
 
 echo 'export JAVA_HOME=/opt/java-11' >> ~/.bash_profile
 echo 'export PATH=$PATH:$JAVA_HOME/bin' >> ~/.bash_profile
@@ -78,6 +78,7 @@ Install required tools and go to the `/opt` directory:
 
 ```bash
 cd /opt
+sudo su -
 yum install -y wget unzip
 ```
 ---
@@ -97,7 +98,7 @@ Instead of updating user-specific profiles, we’ll set up a global script:
 
 ```bash
 
-# User Level (Only It will work for current User)
+# User Level (Exit as a Root User and Run as Regular/Normal User (Only It will work for current User)
 
 echo 'export M2_HOME=/opt/apache-maven-3.9.10' >> ~/.bash_profile
 echo 'export PATH=$PATH:$M2_HOME/bin' >> ~/.bash_profile
