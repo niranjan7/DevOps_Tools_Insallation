@@ -46,6 +46,15 @@ wget https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.
 tar -xzf openjdk-11.0.2_linux-x64_bin.tar.gz
 sudo mv jdk-11.0.2 /opt/java-11
 
+# User Level (Only It will work for current User)
+
+echo 'export JAVA_HOME=/opt/java-11' >> ~/.bash_profile
+echo 'export PATH=$PATH:$JAVA_HOME/bin' >> ~/.bash_profile
+
+source ~/.bash_profile
+
+
+# Sytem Level For All Users
 sudo tee /etc/profile.d/java.sh <<EOF
 export JAVA_HOME=/opt/java-11
 export PATH=\$JAVA_HOME/bin:\$PATH
@@ -87,6 +96,15 @@ unzip apache-maven-3.9.10-bin.zip
 Instead of updating user-specific profiles, we’ll set up a global script:
 
 ```bash
+
+# User Level (Only It will work for current User)
+
+echo 'export M2_HOME=/opt/apache-maven-3.9.10' >> ~/.bash_profile
+echo 'export PATH=$PATH:$M2_HOME/bin' >> ~/.bash_profile
+
+source ~/.bash_profile
+
+# Sytem Level For All Users
 
 sudo tee /etc/profile.d/java.sh <<EOF
 export M2_HOME=/opt/apache-maven-3.9.10
