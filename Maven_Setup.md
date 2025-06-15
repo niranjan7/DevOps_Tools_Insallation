@@ -1,6 +1,6 @@
 
 
-This guide walks you through installing **Apache Maven 3.9.9** on a **Red Hat Linux EC2 instance**, including Java installation, Maven setup, and environment configuration.
+This guide walks you through installing **Apache Maven 3.9.10** on a **Red Hat Linux EC2 instance**, including Java installation, Maven setup, and environment configuration.
 
 ---
 
@@ -8,8 +8,8 @@ This guide walks you through installing **Apache Maven 3.9.9** on a **Red Hat Li
 
 - **JDK**: 1.8 or above (Java is required before installing Maven)
 - **Disk Space**: ~10MB for Maven + dependencies
-- **OS**: Any Linux flavor; tested on Red Hat EC2
-- **Maven Version**: 3.9.9
+- **OS**: Any Linux flavor; Tested on Red Hat EC2
+- **Maven Version**: 3.9.10
 
 > All external software is installed in the `/opt` directory.
 
@@ -142,6 +142,8 @@ Java version: 1.8.x or 11.x
 
 ---
 
+## Using Package Managers
+
 ### Amazon Linux 2
 
 ```bash
@@ -164,4 +166,3 @@ java -version
 javac -version
 mvn --version
 ```
----
