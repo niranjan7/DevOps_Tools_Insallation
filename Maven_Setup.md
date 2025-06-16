@@ -107,7 +107,7 @@ source ~/.bash_profile
 
 # Sytem Level For All Users
 
-sudo tee /etc/profile.d/java.sh <<EOF
+sudo tee /etc/profile.d/mvn.sh <<EOF
 export M2_HOME=/opt/apache-maven-3.9.10
 export PATH=$PATH:$M2_HOME/bin
 EOF
