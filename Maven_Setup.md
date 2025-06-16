@@ -137,7 +137,7 @@ Java version: 1.8.x or 11.x
 
 | Error | Cause | Fix |
 |-------|-------|-----|
-| `mvn: command not found` | Environment not loaded | Run `source /etc/profile.d/maven.sh` |
+| `mvn: command not found` | Environment not loaded | Run `source /etc/profile.d/mvn.sh` |
 | `java: command not found` | Java not installed or  environment not loaded| Install Java Or Run `source /etc/profile.d/javav.sh`|
 | Permission denied | Not root user | Use `sudo` or switch to root |
 
