@@ -1,6 +1,6 @@
 
 
-This guide walks you through installing **Apache Maven 3.9.10** on a **Red Hat Linux EC2 instance**, including Java installation, Maven setup, and environment configuration.
+This guide walks you through installing **Apache Maven 3.9.10** on a **Amazon Linux EC2 instance**, including Java installation, Maven setup, and environment configuration.
 
 ---
 
@@ -8,7 +8,7 @@ This guide walks you through installing **Apache Maven 3.9.10** on a **Red Hat L
 
 - **JDK**: 1.8 or above (Java is required before installing Maven)
 - **Disk Space**: ~10MB for Maven + dependencies
-- **OS**: Any Linux flavor; Tested on Red Hat EC2
+- **OS**: Any Linux flavor; Tested on Amzon Linux EC2
 - **Maven Version**: 3.9.10
 
 > All external software is installed in the `/opt` directory.
@@ -22,7 +22,7 @@ This guide walks you through installing **Apache Maven 3.9.10** on a **Red Hat L
 
 ---
 
-## 📦 Step-by-Step Installation Instructions
+## 📦 Step-by-Step Installation Instructions(Works On Any Linux Distribution)
 
 ### ✅ Step 1: Switch to Root User
 
@@ -42,6 +42,9 @@ You can install **Java 1.8**  or **Above**
 ```bash
 # For JDK 11
 yum install wget -y
+
+# In case of ubuntu or debian O.S
+# apt install wget -y
 wget https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz
 tar -xzf openjdk-11.0.2_linux-x64_bin.tar.gz
 mv jdk-11.0.2 /opt/java-11
@@ -80,6 +83,9 @@ Install required tools and go to the `/opt` directory:
 cd /opt
 sudo su -
 yum install -y wget unzip
+
+# In case of ubuntu or debian O.S
+# apt install wget unzip -y
 ```
 ---
 
@@ -112,7 +118,7 @@ export M2_HOME=/opt/apache-maven-3.9.10
 export PATH=$PATH:$M2_HOME/bin
 EOF
 
-source /etc/profile.d/maven.sh
+source /etc/profile.d/mvn.sh
 
 ```
 
