@@ -48,6 +48,7 @@ yum install wget -y
 wget https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz
 tar -xzf openjdk-11.0.2_linux-x64_bin.tar.gz
 mv jdk-11.0.2 /opt/java-11
+rm openjdk-11.0.2_linux-x64_bin.tar.gz # Remove Once Extracted
 
 # User Level (Exit as a Root User and Run as Regular/Normal User (Only It will work for current User)
 
@@ -94,6 +95,7 @@ yum install -y wget unzip
 ```bash
 wget https://dlcdn.apache.org/maven/maven-3/3.9.10/binaries/apache-maven-3.9.10-bin.zip
 unzip apache-maven-3.9.10-bin.zip
+rm apache-maven-3.9.10-bin.zip # Remove Once it's Unzipped.
 ```
 
 ---
