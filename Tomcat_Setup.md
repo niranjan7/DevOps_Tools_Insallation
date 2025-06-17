@@ -76,15 +76,15 @@ sudo chmod +x /opt/tomcat/bin/catalina.sh
 ```bash
 cd /opt/tomcat/bin
 sudo ./startup.sh
-````
+```
 
 ### This will stop the Tomcat server.
 
 ```bash
 cd /opt/tomcat/bin
 sudo ./shutdown.sh
+```
 ---
-
 
 ### usage of Catalin.sh
 
@@ -108,6 +108,7 @@ Used for:
 ./catalina.sh stop
 ./catalina.sh run
 ```
+---
 ## (Optional) Create Systemd Service for Tomcat
 
 ```bash
