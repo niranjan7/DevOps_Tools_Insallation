@@ -91,7 +91,7 @@ sudo ./shutdown.sh
 * Role: Core script that controls all Tomcat lifecycle commands.
 * More flexible: Accepts multiple command-line options.
 
-> Used for:
+>Used for:
 
 - Starting (catalina.sh start)
 - Stopping (catalina.sh stop)
