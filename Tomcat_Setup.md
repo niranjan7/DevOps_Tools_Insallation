@@ -84,23 +84,19 @@ sudo ./startup.sh
 cd /opt/tomcat/bin
 sudo ./shutdown.sh
 ```
----
 
 ### usage of Catalin.sh
 
-Location: $CATALINA_HOME/bin/catalina.sh
-Role: Core script that controls all Tomcat lifecycle commands.
-More flexible: Accepts multiple command-line options.
-Used for:
+* Location: $CATALINA_HOME/bin/catalina.sh
+* Role: Core script that controls all Tomcat lifecycle commands.
+* More flexible: Accepts multiple command-line options.
+
+> Used for:
 
 - Starting (catalina.sh start)
-
 - Stopping (catalina.sh stop)
-
 - Debugging (catalina.sh jpda start)
-
 - Running in the foreground (catalina.sh run)
-
 - Config testing, version info (catalina.sh version)
 
 ```bash
