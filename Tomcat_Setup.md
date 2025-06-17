@@ -85,7 +85,7 @@ cd /opt/tomcat/bin
 sudo ./shutdown.sh
 ```
 
-### usage of Catalin.sh
+### Usage of Catalin.sh
 
 * Location: $CATALINA_HOME/bin/catalina.sh
 * Role: Core script that controls all Tomcat lifecycle commands.
