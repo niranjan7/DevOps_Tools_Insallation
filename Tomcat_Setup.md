@@ -1,4 +1,4 @@
-# Java 11 & Tomcat 9 Installation Guide on Amazon EC2 (Amazon Linux 2) & RHEL 8/9 & Ubuntu
+## Java 11 & Tomcat 9 Installation Guide on Amazon EC2 (Amazon Linux 2) & RHEL 8/9 & Ubuntu
 
 Step-by-step instructions to install **Java 11** and **Apache Tomcat 9** on **Amazon Linux 2** and **Red Hat Enterprise Linux (RHEL 8/9)** and **Ubuntu** servers.
 
