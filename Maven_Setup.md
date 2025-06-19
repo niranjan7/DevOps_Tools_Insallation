@@ -219,6 +219,7 @@ sudo apt autoremove
 java -version
 ```
 
+## Install Maven With Java Using yum
 
 ```bash
 sudo apt update
