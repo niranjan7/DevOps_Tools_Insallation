@@ -157,8 +157,8 @@ Java version: 1.8.x or 11.x
 
 ```bash
 sudo yum update -y
-sudo amazon-linux-extras enable corretto17
-sudo yum install java-11-amazon-corretto -y
+# Maven Depends On Java So Maven With Java Also will be installed.
+# But if you want to instal specific versions of java and maven then install manaullay by download specific versions of tar/zip files.
 sudo yum install maven -y
 java -version
 javac -version
@@ -169,7 +169,8 @@ mvn --version
 
 ```bash
 sudo apt update
-sudo apt install openjdk-11-jdk -y
+# Maven Depends On Java So Maven With Java Also will be installed.
+# But if you want to instal specific versions of java and maven then install manaullay by download specific versions of tar/zip files.
 sudo apt install maven -y
 java -version
 javac -version
