@@ -7,7 +7,7 @@ This guide walks you through installing **Apache Maven 3.9.10** on a **Amazon Li
 ## 🛠 System Requirements
 
 - **JDK**: 1.8 or above (Java is required before installing Maven)
-- - **Java 11** Preffered but depends on Application 
+- **Java 11** Preffered but depends on Application 
 - **Disk Space**: ~10MB for Maven + dependencies
 - **OS**: Any Linux flavor; Tested on Amzon Linux EC2
 - **Maven Version**: 3.9.10
