@@ -6,8 +6,8 @@ This guide walks you through installing **Apache Maven 3.9.10** on a **Amazon Li
 
 ## 🛠 System Requirements
 
-- **JDK**: 1.8 or above (Java is required before installing Maven)
-- **Java 11** Preffered but depends on Application 
+- **JDK**: 11 or above (Java is required before installing Maven)
+- **Java 17** Preffered but depends on Application 
 - **OS**: Any Linux flavor; Tested on Amzon Linux EC2
 - **Maven Version**: 3.9.10
 
@@ -32,38 +32,37 @@ sudo su -
 
 ---
 
-### ✅ Step 2: Install Java (JDK)
+### ✅ Step 2: Install Java 17 (JDK 17)
 
-You can install **Java 1.8**  or **Above**
+You can install **Java 11**  or **Above**
 
 ### We Can Find Java Softwares Open JDK Versions Here:-  https://jdk.java.net/archive/
 
 
 ```bash
-# For JDK 11
+# For JDK 17
 yum install wget -y
 
 # In case of ubuntu or debian O.S
 # apt install wget -y
-wget https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz
-tar -xzf openjdk-11.0.2_linux-x64_bin.tar.gz
-mv jdk-11.0.2 /opt/java-11
-rm openjdk-11.0.2_linux-x64_bin.tar.gz # Remove Once Extracted
+
+cd /opt
+sudo  wget https://download.java.net/openjdk/jdk17.0.0.1/ri/openjdk-17.0.0.1+2_linux-x64_bin.tar.gz
+sudo tar -xvzf openjdk-17.0.0.1+2_linux-x64_bin.tar.gz
+sudo rm openjdk-17.0.0.1+2_linux-x64_bin.tar.gz
+sudo mv jdk-17.0.0.1  java-17
+sudo ln -s /opt/java-17/bin/java /usr/bin/java
 
 # User Level (Exit as a Root User and Run as Regular/Normal User (Only It will work for current User)
-
-echo 'export JAVA_HOME=/opt/java-11' >> ~/.bash_profile
+echo 'export JAVA_HOME=/opt/java-17' >> ~/.bash_profile
 echo 'export PATH=$PATH:$JAVA_HOME/bin' >> ~/.bash_profile
-
 source ~/.bash_profile
-
 
 # Sytem Level For All Users
 sudo tee /etc/profile.d/java.sh <<EOF
-export JAVA_HOME=/opt/java-11
+export JAVA_HOME=/opt/java-17
 export PATH=\$JAVA_HOME/bin:\$PATH
 EOF
-
 source /etc/profile.d/java.sh
 
 ```
@@ -122,8 +121,6 @@ EOF
 
 source /etc/profile.d/mvn.sh
 
-```
-
 ---
 
 ### ✅ Step 6: Verify Maven Installation
@@ -136,7 +133,7 @@ Expected output:
 
 ```
 Apache Maven 3.9.10 (...)
-Java version: 1.8.x or 11.x
+Java version: 11.x or 17.x
 ```
 
 ---
