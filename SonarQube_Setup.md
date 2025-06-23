@@ -1,126 +1,182 @@
-rerequsites for SonarQube Installation
-=======================================
+# SonarQube 25.6.0 Setup on Linux
+
+## Prerequisites
+
+| Requirement        | Details                          |
+|--------------------|----------------------------------|
+| Java               | Java 17+ (OpenJDK/Temurin)       |
+| Database           | PostgreSQL 12+ recommended       |
+| RAM                | 2 GB minimum, 8 GB recommended    |
+| OS                 | Linux (Ubuntu, RHEL, etc.)       |
+| Privileges         | Non-root user for SonarQube      |
+
+---
+
+## Download Java 17 Or Above For SonarQube 25.x 
+
+```bash
+cd /opt
+sudo  wget https://download.java.net/openjdk/jdk17.0.0.1/ri/openjdk-17.0.0.1+2_linux-x64_bin.tar.gz
+sudo tar -xvzf openjdk-17.0.0.1+2_linux-x64_bin.tar.gz
+sudo rm openjdk-17.0.0.1+2_linux-x64_bin.tar.gz
+sudo mv jdk-17.0.0.1  java-17
+sudo ln -s /opt/java-17/bin/java /usr/bin/java
+echo 'export JAVA_HOME=/opt/java-17' | sudo tee -a /etc/profile
+echo 'export PATH=$PATH:$JAVA_HOME/bin' | sudo tee -a /etc/profile
+source /etc/profile
+
+java -version
+
+```
+
+## Download SonarQube 25.6.0
+
+```bash
+sudo wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-25.6.0.109173.zip
+sudo unzip sonarqube-25.6.0.zip
+sudo mv sonarqube-25.6.0.109173 /opt/sonarqube
+```
+
+---
 
 
-To install SonarQube, certain prerequisites must be met in terms of software and hardware requirements.
+## Create and Assign Sonar User
 
-Below are the detailed prerequisites for installing SonarQube:
+```bash
+sudo useradd -r -M sonar
+sudo chown -R sonar:sonar /opt/sonarqube
+```
 
-1. Hardware Requirements
-------------------------
-CPU: Modern multi-core processor.
-
-RAM: At least 2GB of RAM (4GB recommended for production).  go for t2.medium
-
-Disk Space: 1GB of free disk space for the SonarQube installation, plus additional space for the database.
-
-2. Software Requirements
-------------------------
-Operating System
------------------
-Linux (preferred)
-Windows
-macOS
-
-Java
-----
-Java JDK 11 or 17
-SonarQube requires the Java JDK (not just the JRE).
-Set the JAVA_HOME environment variable to point to your JDK installation.
-
-DB
---
-Oracle
-MYSQL  --> Removed
-MS SQL SERVER
-POSTGRE SQL 
-
-DB is optional, Because of H2 is inbuild DB for SonarQube.
+---
+### Note: Make sure always start sonarqube as sonar user don't try to start as any other user. If SonarQube is failed to start delete /opt/sonarqube/temp folder then start sonarqube as sonar user.
+---
+## Start SonarQube
 
 
+```bash
+sudo -u sonar /opt/sonarqube/bin/linux-x86-64/sonar.sh start
+```
+
+Check logs:
+
+```bash
+tail -f /opt/sonarqube/logs/sonar.log
+```
+
+---
+
+## Create a Systemd Service
+
+```bash
+sudo vi /etc/systemd/system/sonarqube.service
+```
+
+Add:
+
+```ini
+[Unit]
+Description=SonarQube 25.6.0
+After=network.target
+
+[Service]
+Type=forking
+User=sonar
+Group=sonar
+ExecStart=/opt/sonarqube/bin/linux-x86-64/sonar.sh start
+ExecStop=/opt/sonarqube/bin/linux-x86-64/sonar.sh stop
+LimitNOFILE=65536
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable and start:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable sonarqube
+sudo systemctl start sonarqube
+```
+---
+
+## 🌐 Step 9: Access SonarQube
+
+URL: `http://<your-ip>:9000`  
+Default login: `admin` / `admin`
+
+---
+
+## Optional (Recommended for Real Projects): External DB PostgreSQL Setup
 
 
-SonarQube installation
-======================
+## Install PostgreSQL
 
-step 1: launch t2.medium machine [4GB]
+```bash
+sudo apt update
+sudo apt install  postgresql -y
+```
 
-step 2: connect to that server
+---
 
-step 3: switch to root user [ sudo su - ]
+## Configure PostgreSQL
 
-step 4: install java
+```bash
+sudo -u postgres psql
+```
 
-   sudo yum install java-11-openjdk-devel -y
-  
-   javac --version
+```sql
+CREATE DATABASE sonarqube;
+CREATE USER sonar WITH ENCRYPTED PASSWORD 'ChangeMe123';
+GRANT ALL PRIVILEGES ON DATABASE sonarqube TO sonar;
+\q
+```
 
-step 5: go to /opt dir
+---
 
-  cd /opt
+## Configure SonarQube To Use PostgreSQL
 
-step 6: yum install wget unzip -y
+Edit the config file:
 
-step 7: wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.6.1.59531.zip
+```bash
+sudo nano /opt/sonarqube/conf/sonar.properties
+```
 
+Update JDBC settings:
 
+```ini
+sonar.jdbc.username=sonar
+sonar.jdbc.password=ChangeMe123
+sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
+```
+---
 
+## (Optional) JVM Memory Configuration for SonarQube 25.x
 
-step 7.1 : unzip sonarqube-9.6.1.59531.zip
+### Locate the Wrapper Configuration
+SonarQube 25.x no longer uses wrapper.conf for JVM options.
 
-step 8: mv sonarqube-9.6.1.59531 sonarqube
+Instead, JVM settings are now configured in the conf/sonar.properties or via environment variables in the bin/linux-x86-64/sonar.sh script.
 
-step 9:  *************
- As a good security practice, SonarQuber Server is not advised to run sonar service as a root user, so create a new user called sonar user  and grant sudo access to manage nexus services as follows.
+```bash
+vi /opt/sonarqube/bin/linux-x86-64/sonar.sh
+```
+Look for or add the following block near the top of the file:
 
+```bash
+# JVM memory options
+export SONAR_JAVA_OPTS="-Xms1g -Xmx2g -XX:+UseG1GC -Dfile.encoding=UTF-8"
+```
+Apply and Restart
+Restart SonarQube to apply changes:
+```bash
+cd /opt/sonarqube/bin/linux-x86-64
+./sonar.sh restart
+```
 
-useradd sonar
+### Best Practice for Production
+- For small environments, use -Xms512m -Xmx1g
+- For medium setups, use -Xms2g -Xmx4g
+- For large-scale enterprise, monitor memory usage with tools and tune accordingly
 
-step 10: 
-
-Give the sudo access to sonar user
-
-visudo
-
-sonar   ALL=(ALL)       NOPASSWD: ALL
-
-step 11:
-
-Change the owner and group permissions to /opt/sonarqube/ directory.
-
-
-chown -R sonar:sonar /opt/sonarqube/
-chmod -R 775 /opt/sonarqube/
-su - sonar
-cd /opt/sonarqube/bin/linux-x86-64/
-
-sh sonar.sh start
-sh sonar.sh status
-sh sonar.sh stop
-sh sonar.sh restart
-
-
-step 12: Now you can try to access the SonarQube Server.
-
-NOTE: default port number for Sonarqubr server: 9000
-
-http://15.207.110.48:9000
-
-NOTE: pls make sure to alolw traffic for 9000 port.
-
-step 13: refresh the page
-
-  default credentials:  uname: admin   pwd: admin
-
-stpe 14: It will ask to change the password
-
-
-================================================================================================
-
-
-Trouble shooting
-=================
-1. sonar user
-2. traffic enabled or not
-3. Java installed or not.
-4. min 4GB RAM machine
+---
