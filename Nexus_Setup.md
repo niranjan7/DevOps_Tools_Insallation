@@ -87,34 +87,46 @@ sudo systemctl start nexus
 
 ```plaintext
 nexus-3.80.1-01/
-├── bin/
-│   ├── nexus
-│   └── nexus.vmoptions
-├── etc/
-│   ├── nexus-default.properties
-│   └── ...
-├── jdk/
+├── bin/                     # Startup and shutdown scripts
+│   ├── nexus               # Shell script to start/stop Nexus (Linux/macOS)
+│   └── nexus.vmoptions     # JVM options for tuning memory, GC, etc.
+│
+├── etc/                    # Configuration files
+│   ├── nexus-default.properties  # Default Nexus config (port, data dir)
+│   └── ...                        # Other internal configs
+│
+├── jdk/                    # Bundled Temurin JDK (starting from 3.80.x)
 │   └── temurin_17.x.x_xx_linux_x64/
 │       └── jdk-17.0.x+xx/
-├── lib/
-│   └── ...
-├── nexus/
-│   └── system/
-├── public/
-├── tmp/
-└── NOTICE.txt
-
-sonatype-work/nexus3/
-├── blobs/
-├── db/
-├── elasticsearch/
-├── keystores/
-├── log/
-├── metrics/
-├── tmp/
-└── cache/
+│           └── bin/, lib/, etc.  # Full Java 17 runtime
+│
+├── lib/                    # Nexus runtime libraries (JARs)
+│   └── ...                # Core components and plugins
+│
+├── nexus/                 # Main application code and plugins
+│   └── system/            # Internal modules and OSGi bundles
+│
+├── public/                # Static content (e.g., images, CSS)
+│
+├── tmp/                   # Temporary files (auto-generated)
+│
+└── NOTICE.txt             # Legal notice
 ```
 
+### sonatype-work/nexus3/ (Created on First Start)
+This is the runtime data directory. By default, it’s outside the extracted folder (can be changed via nexus-default.properties).
+
+```plaintext
+sonatype-work/nexus3/
+├── blobs/                 # Binary storage (artifact files)
+├── db/                    # OrientDB files (metadata, configs)
+├── elasticsearch/         # Indexing engine
+├── keystores/             # TLS keystores (if configured)
+├── log/                   # Log files (nexus.log, request.log, etc.)
+├── metrics/               # Performance stats
+├── tmp/                   # Temp working files
+└── cache/                 # Cache for components and requests
+```
 ---
 
 ## Notes
@@ -164,9 +176,7 @@ nexus-3.80.1-01/
 ```bash
 ./bin/nexus start
 ```
-
 Uses the bundled JDK instead of system Java or `JAVA_HOME`.
-
 ### 📝 Important
 
 - Do not delete or modify the `jdk/` directory.
